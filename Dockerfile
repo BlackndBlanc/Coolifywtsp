@@ -1,7 +1,7 @@
-# استخدم صورة Node خفيفة
+# استخدم صورة Node الرسمية
 FROM node:18-slim
 
-# تثبيت متطلبات Puppeteer / Chromium
+# تثبيت المتطلبات الخاصة بـ Chromium لتعمل Puppeteer
 RUN apt-get update && apt-get install -y \
     wget \
     ca-certificates \
@@ -23,24 +23,22 @@ RUN apt-get update && apt-get install -y \
     libu2f-udev \
     libvulkan1 \
     libxss1 \
-    libxtst6 \
+    libxshmfence1 \
     --no-install-recommends && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # تحديد مجلد العمل داخل الحاوية
 WORKDIR /app
 
-# نسخ ملفات package لتثبيت الحزم أولاً
+# نسخ ملفات البروجكت
 COPY package*.json ./
-
-# تثبيت الحزم
 RUN npm install
 
-# نسخ باقي ملفات المشروع
 COPY . .
 
-# فتح المنفذ 3000 (أو حسب ما تستخدم)
+# فتح المنفذ
 EXPOSE 3000
 
-# بدء التطبيق
+# تشغيل التطبيق
 CMD ["node", "server.js"]
