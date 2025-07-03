@@ -195,7 +195,7 @@ app.get('/status', (_req, res) =>
   res.status(client.info ? 200 : 503).send(client.info ? 'Ready' : 'Not ready')
 );
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3010;
 app.listen(PORT, () => {
   console.log(`🚀  http://localhost:${PORT}`);
   client.initialize(); // ← هذا هو التغيير المهم
