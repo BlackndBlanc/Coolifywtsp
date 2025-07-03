@@ -1,7 +1,6 @@
-# استخدم صورة Node الرسمية
-FROM node:18
+FROM node:18-slim
 
-# تثبيت المتطلبات الخاصة بـ puppeteer/chromium
+# Puppeteer dependencies
 RUN apt-get update && apt-get install -y \
     wget \
     ca-certificates \
@@ -23,15 +22,13 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# مجلد العمل داخل الحاوية
 WORKDIR /app
 
-# نسخ كل الملفات
-COPY . .
-
-# تثبيت الحزم
+COPY package*.json ./
 RUN npm install
 
-# بدء التطبيق
-CMD ["node", "server.js"]
+COPY . .
 
+EXPOSE 3000
+
+CMD ["node", "server.js"]
